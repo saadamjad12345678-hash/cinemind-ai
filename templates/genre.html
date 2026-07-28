@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>CineMind AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="navbar">
+
+    <div class="logo">
+        🎬 <span>CineMind AI</span>
+    </div>
+
+    <nav>
+        <a href="/">🏠 Home</a>
+    </nav>
+
+    <div class="user-area">
+        <span>👋 {{ user }}</span>
+        <a href="/logout" class="logout-btn">
+            Logout
+        </a>
+    </div>
+
+</header>
+
+<h2 class="hero-title">
+<h2>🎭 Movies Based On Selected Genre</h2>
+</h2>
+
+<p class="hero-subtitle">
+Top movies selected using Genre, IMDb Rating and Popularity.
+</p>
+
+<div class="movies-grid">
+
+{% for movie in movies %}
+
+<a href="/movie/{{ movie.id }}" class="movie-link">
+
+<div class="small_movie_card">
+
+<img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+<h3>{{ movie.title }}</h3>
+
+<p>⭐ {{ "%.1f"|format(movie.imdb_rating) }}/10 IMDb</p>
+
+<p style="color:#00ff99;font-weight:bold;">
+🔥 Popular {{ "%.0f"|format(movie.popularity) }}
+</p>
+
+<p style="font-size:13px;color:#cfcfcf;">
+{{ movie.release_date }}
+</p>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+
+</html>

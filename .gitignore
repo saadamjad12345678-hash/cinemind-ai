@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+
+database/movies.db
+
+users.db
+
+.env

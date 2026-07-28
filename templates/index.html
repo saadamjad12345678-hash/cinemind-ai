@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CineMind AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="navbar">
+
+    <div class="logo">
+
+    <div class="logo-icon">
+        CM
+    </div>
+
+    <div class="logo-content">
+
+        <div class="logo-text">
+            CineMind
+        </div>
+
+        <div class="logo-sub">
+            AI Movie Recommender
+        </div>
+
+    </div>
+
+</div>
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="#hollywood">Hollywood</a>
+
+        <a href="#bollywood">Bollywood</a>
+
+        <a href="#genres">Genres</a>
+
+    </nav>
+
+    <div class="user-area">
+
+        <span>👋 {{ user }}</span>
+
+        <a href="/logout" class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</header>
+    
+<h2 class="genre-title">
+Find Your Perfect Movie
+</h2>
+
+<div class="industry-heading">
+    🎞 Select Your Movie Industry
+</div>
+
+
+<form action="/genre" method="POST">
+
+<select name="language" class="industry-select">
+
+    <option value="en">🎬 Hollywood Movies</option>
+
+    <option value="hi">🎥 Bollywood Movies</option>
+
+</select>
+
+<div class="genre-grid">
+
+<button class="genre-card" name="genre" value="Action">
+🔥
+<br>
+<span>Action</span>
+</button>
+
+<button class="genre-card" name="genre" value="Comedy">
+😂
+<br>
+<span>Comedy</span>
+</button>
+
+<button class="genre-card" name="genre" value="Horror">
+👻
+<br>
+<span>Horror</span>
+</button>
+
+<button class="genre-card" name="genre" value="Romance">
+❤️
+<br>
+<span>Romance</span>
+</button>
+
+<button class="genre-card" name="genre" value="Thriller">
+🔪
+<br>
+<span>Thriller</span>
+</button>
+
+<button class="genre-card" name="genre" value="Science Fiction">
+🚀
+<br>
+<span>Sci-Fi</span>
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<form action="/" method="POST" class="search-form">
+
+    <input
+        class="search-input"
+        type="text"
+        name="movie"
+        placeholder="Search movies, genres or actors"
+        required>
+
+    <button class="search-btn" type="submit">
+        🔍 Search
+    </button>
+
+</form>
+
+{% if history %}
+
+<div class="container mt-5">
+
+    <h2 class="text-white mb-3">
+        Continue Watching
+    </h2>
+
+    <div class="row">
+
+        {% for movie in history %}
+
+        <div class="col-lg-2 col-md-3 col-6 mb-4">
+
+            <a href="/movie/{{movie.id}}">
+
+                <img
+                    src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}"
+                    class="img-fluid rounded shadow">
+
+            </a>
+
+            <h6 class="text-white mt-2">
+                {{movie.title}}
+            </h6>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endif %}
+
+    {% if not movie %}
+
+    <h2 id="hollywood">🔥 Trending Hollywood</h2>
+
+    <div class="movies-grid">
+
+        {% for movie in trending_hollywood %}
+
+    <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="movie-link">
+
+   <div class="small_movie_card">
+
+    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+    <h3>{{ movie.title }}</h3>
+
+    <p>⭐ IMDb {{ "%.1f"|format(movie.imdb_rating) }}</p>
+
+    <p style="color:#00ff99;font-weight:bold;">
+        🔥 Popular
+    </p>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+    </div>
+
+
+    <h2 id="bollywood">🔥 Trending Bollywood</h2>
+
+    <div class="movies-grid">
+
+       {% for movie in trending_bollywood %}
+
+        <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="movie-link">
+
+           <div class="small_movie_card">
+
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+         <h3>{{ movie.title }}</h3>
+
+        <p>⭐ IMDb {{ "%.1f"|format(movie.imdb_rating) }}</p>
+
+        <p style="color:#00ff99;font-weight:bold;">
+        🔥 Popular
+    </p>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+
+    {% if movie %}
+
+        {% if movie_data %}
+
+        <h2>🎬 Search Result</h2>
+
+        <div class="movie_card">
+
+            <h3>{{ movie_data.title }}</h3>
+
+            <img src="https://image.tmdb.org/t/p/w500{{ movie_data.poster_path }}">
+
+            <p>⭐ Rating : {{ "%.1f"|format(movie_data.vote_average) }}/10</p>
+
+            <p>📅 Release : {{ movie_data.release_date }}</p>
+
+            <p>📝 {{ movie_data.overview }}</p>
+
+        </div>
+
+
+        <h2>🤖 CineMind AI Recommendations</h2>
+
+        <p style="color:#bdbdbd; margin-bottom:20px;">
+            Recommendations generated using
+            <b>Genre</b>,
+            <b>Language</b>,
+            <b>Popularity</b>
+            and
+            <b>Rating</b>.
+        </p>
+
+        <div class="movies-grid">
+
+            {% for movie in recommended_movies %}
+
+            <div class="small_movie_card">
+
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+                <h3>{{ movie.title }}</h3>
+
+                <p>⭐ {{ "%.1f"|format(movie.vote_average) }}/10</p>
+
+                <p style="color:#00ff99;font-weight:bold;">
+
+                🤖 AI Match {{ "%.1f"|format(movie.ai_score) }}%
+                
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <h2>❌ Movie Not Found</h2>
+
+        <p>Please search another movie.</p>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>{{ movie.title }} | CineMind AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="navbar">
+
+    <div class="logo">
+        🎬 <span>CineMind AI</span>
+    </div>
+
+    <nav>
+        <a href="/">🏠 Home</a>
+    </nav>
+
+    <div class="user-area">
+        <span>👋 {{ session.user }}</span>
+        <a href="/logout" class="logout-btn">
+            Logout
+        </a>
+    </div>
+
+</header>
+
+<div class="movie-details">
+
+    <img
+        class="details-poster"
+        src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+    <div class="details-info">
+
+        <h1>{{ movie.title }}</h1>
+
+        <div class="movie-meta">
+
+    <div class="meta-box">
+    ⭐ {{ "%.1f"|format(movie.vote_average) }}/10
+    </div>
+
+    <div class="meta-box">
+    📅 {{ movie.release_date }}
+    </div>
+
+    <div class="meta-box">
+    🎭 {{ movie.genres }}
+    </div>
+
+</div>
+
+        <br>
+
+        <p>{{ movie.overview }}</p>
+
+        {% if trailer %}
+
+        <br>
+
+        <a
+            target="_blank"
+            href="https://www.youtube.com/watch?v={{ trailer }}"
+            class="trailer-btn">
+
+            ▶ Watch Official Trailer
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<h2 style="margin-top:40px;">
+👨 Main Cast
+</h2>
+
+<div class="movies-grid">
+
+{% for actor in cast %}
+
+<div class="small_movie_card">
+
+{% if actor.profile_path %}
+
+<img src="https://image.tmdb.org/t/p/w500{{ actor.profile_path }}">
+
+{% else %}
+
+<img src="https://via.placeholder.com/300x450?text=No+Image">
+
+{% endif %}
+
+<h3>{{ actor.name }}</h3>
+
+<p>{{ actor.character }}</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<h2 class="hero-title">
+
+🤖 Because You Watched "{{ movie.title }}"
+
+</h2>
+
+<p class="hero-subtitle">
+
+AI recommendations based on story, genre, language and similarity.
+
+</p>
+
+<div class="movies-grid">
+
+{% for rec in recommendations %}
+
+<a href="/movie/{{ rec.id }}" class="movie-link">
+
+<div class="small_movie_card">
+
+<img src="https://image.tmdb.org/t/p/w500{{ rec.poster_path }}">
+
+<h3>{{ rec.title }}</h3>
+
+<p>
+
+⭐ {{ "%.1f"|format(rec.vote_average) }}/10
+
+</p>
+
+<p style="color:#00ff99;font-weight:bold;">
+
+🤖 AI Match {{ "%.0f"|format(rec.ai_score) }}%
+
+</p>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
