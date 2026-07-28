@@ -1,26 +1,20 @@
 import sqlite3
 import pandas as pd
-
+from sqlalchemy import create_engine
+import os
 from datetime import datetime
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-DATABASE = "database/movies.db"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-
-# ===============================
-# LOAD DATABASE
-# ===============================
-
-conn = sqlite3.connect(DATABASE)
+engine = create_engine(DATABASE_URL)
 
 movies = pd.read_sql(
     "SELECT * FROM clean_movies",
-    conn
+    engine
 )
-
-conn.close()
 
 print("Movies Loaded :", len(movies))
 
