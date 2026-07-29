@@ -13,7 +13,6 @@ DATABASE = "database/movies.db"
 
 movies = None
 
-print("Movies Loaded :", len(movies))
 
 # ===============================
 # RECENCY SCORE
