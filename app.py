@@ -75,7 +75,7 @@ def home():
                 top_n=20
             )
 
-            recommended_movies = df.to_dict("records")
+            recommended_movies = df
 
        
 
