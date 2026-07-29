@@ -29,44 +29,38 @@ button {
 }
 
 .movie_card{
-    /* Size */
-    width: 500px;
 
-     /* Position */
-    margin: auto;
+    width:500px;
+    margin:40px auto;
+    padding:25px;
 
-    /* Spacing */
-    padding: 20px;
+    background:#1f1f1f;
+    border-radius:20px;
+    border:1px solid #414;
 
-    /* Colors */
-    background-color: #1f1f1f;
+    box-shadow:0 8px 20px rgba(0,0,0,.5);
 
-    /*Rounded border*/
-    border-radius: 20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 
-    /*Shadow*/
-    box-shadow: 0px 08px 20px rgba(0,0,0,0.5);
-
-    /*Smooth Animation*/
-    transition: 0.3s;
-
-    border:1px solid#414;
-
+    text-align:center;
 }
 
 .movie_card img{
-
-    width:280px ;
-    border-radius: 15px;
+    width:280px;
+    border-radius:15px;
+    display:block;
+    margin:20px auto;
 }
 
-.movie_card:hover{
-
-    transform: translateY(-10px);
-    box-shadow: 0px 15px 30px rgb(0,0,0,0.7);
-
-
+.movie_card h3,
+.movie_card p{
+    text-align:center;
+    width:100%;
 }
+
 /* ==========================
    SEARCH BAR
 ========================== */
@@ -1040,4 +1034,68 @@ justify-content:center;
 
     box-shadow:0 15px 35px rgba(229,9,20,.45);
 
+}
+
+.ai-title {
+    text-align: center;
+    margin: 40px 0 20px;
+    color: white;
+}
+
+/* Center all main section headings */
+h2 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+/* Search result movie title */
+.movie_card h3 {
+    text-align: center;
+}
+
+/* Movie card titles */
+.small_movie_card h3 {
+    text-align: center;
+}
+
+h2,
+.movie_card h3,
+.small_movie_card h3,
+.ai-title {
+    text-align: center !important;
+    width: 100%;
+    display: block;
+}
+
+.hero-title,
+.hero-subtitle,
+.genre-title,
+.industry-heading,
+h2{
+    text-align:center !important;
+    width:100%;
+}
+
+/* ===========================
+   CENTER ALL HEADINGS
+=========================== */
+
+.genre-title,
+.ai-title,
+.ai-description,
+#hollywood,
+#bollywood,
+.movie_card h3,
+.movies-grid h3,
+h2 {
+    text-align: center !important;
+    display: block;
+    width: 100%;
+}
+
+.ai-description{
+    color:#bdbdbd;
+    font-size:18px;
+    margin-bottom:25px;
 }

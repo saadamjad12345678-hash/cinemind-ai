@@ -71,11 +71,13 @@ def recommend(movie_title, top_n=20):
 
         print("Movies Loaded:", len(movies))
 
-        movie = movies[
-            movies["title"]
-            .str.lower()
-    .       str.contains(movie_title.lower(), na=False)
-]
+    # Search movie after database is loaded
+    movie = movies[
+        movies["title"]
+        .str.lower()
+        .str.contains(movie_title.lower(), na=False)
+    ]
+
     if movie.empty:
         return []
 
