@@ -191,48 +191,35 @@ def movie_details(movie_id):
     if "user" not in session:
         return redirect(url_for("login"))
 
-    # TMDB se movie details
+    # Database se movie details
     movie = get_movie_details(movie_id)
 
-    # Trailer
-    trailer = get_movie_trailer(movie_id)
-
-    # Cast
-    cast = get_movie_cast(movie_id)
-
-    if not movie or "title" not in movie:
+    if movie is None:
         return "Movie Not Found"
 
-    # -----------------------------
-    # Save Watch History
-    # -----------------------------
+    # API se trailer
+    trailer = get_movie_trailer(movie_id)
+
+    # API se cast
+    cast = get_movie_cast(movie_id)
+
     gmail = session.get("gmail")
 
     if gmail:
         save_history(gmail, movie_id)
 
-    # -----------------------------
-    # AI Recommendations
-    # -----------------------------
     recommendations = recommend(
         movie["title"],
         top_n=20
     )
 
-    if recommendations is None:
-        recommendations = []
-
-    elif hasattr(recommendations, "to_dict"):
-        recommendations = recommendations.to_dict("records")
-
     return render_template(
         "movie_details.html",
+        movie=movie,
         trailer=trailer,
         cast=cast,
-        movie=movie,
         recommendations=recommendations
     )
-
 @app.route("/logout")
 def logout():
 
