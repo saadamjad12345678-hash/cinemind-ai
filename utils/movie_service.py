@@ -6,7 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 API_KEY = os.getenv("TMDB_API_KEY")
+
+print("TMDB API KEY =", API_KEY)
 
 DATABASE = "database/movies.db"
 
@@ -45,31 +48,26 @@ def search_movie(title):
 
     return movie.iloc[0].to_dict()
 
-
-# ------------------------
-# TMDB Movie Details
-# ------------------------
-
 def get_movie_details(movie_id):
+
+    print("========== MOVIE DETAILS ==========")
+    print("API KEY:", API_KEY)
 
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}"
 
     response = requests.get(url)
 
+    print("STATUS:", response.status_code)
+    print("BODY:", response.text)
+
     movie = response.json()
 
-# Convert genre objects to string
     if "genres" in movie:
-     movie["genres"] = " • ".join(
-        [g["name"] for g in movie["genres"]]
-    )
+        movie["genres"] = " • ".join(
+            [g["name"] for g in movie["genres"]]
+        )
 
     return movie
-
-
-# ------------------------
-# Trailer
-# ------------------------
 
 def get_movie_trailer(movie_id):
 
@@ -85,11 +83,6 @@ def get_movie_trailer(movie_id):
             return video["key"]
 
     return None
-
-
-# ------------------------
-# Cast
-# ------------------------
 
 def get_movie_cast(movie_id):
 
