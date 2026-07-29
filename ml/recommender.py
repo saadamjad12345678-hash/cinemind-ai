@@ -1,20 +1,24 @@
 import sqlite3
 import pandas as pd
-from sqlalchemy import create_engine
-import os
 from datetime import datetime
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE = "database/movies.db"
 
-engine = create_engine(DATABASE_URL)
+# ===============================
+# LOAD DATABASE
+# ===============================
+
+conn = sqlite3.connect(DATABASE)
 
 movies = pd.read_sql(
     "SELECT * FROM clean_movies",
-    engine
+    conn
 )
+
+conn.close()
 
 print("Movies Loaded :", len(movies))
 
@@ -32,6 +36,7 @@ def normalize(series):
         return series * 0
 
     return (series - minimum) / (maximum - minimum)
+
 
 # ===============================
 # RECENCY SCORE
