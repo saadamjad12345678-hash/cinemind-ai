@@ -15,12 +15,28 @@ from utils.movie_service import (
     get_movie_details,
     get_movie_trailer,
     get_movie_cast
+    
 )
 
 from ml.recommender import recommend
 
 
+import sqlite3
 
+conn = sqlite3.connect("users.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+)
+""")
+
+conn.commit()
+conn.close()
 
 
 app = Flask(__name__)
@@ -178,14 +194,14 @@ def movie_details(movie_id):
     # TMDB se movie details
     movie = get_movie_details(movie_id)
 
-    if not movie or "title" not in movie:
-        return "Movie Not Found"
-
     # Trailer
     trailer = get_movie_trailer(movie_id)
 
     # Cast
     cast = get_movie_cast(movie_id)
+
+    if not movie or "title" not in movie:
+        return "Movie Not Found"
 
     # -----------------------------
     # Save Watch History
@@ -211,9 +227,9 @@ def movie_details(movie_id):
 
     return render_template(
         "movie_details.html",
-        movie=movie,
         trailer=trailer,
         cast=cast,
+        movie=movie,
         recommendations=recommendations
     )
 
