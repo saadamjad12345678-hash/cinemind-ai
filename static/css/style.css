@@ -148,6 +148,15 @@ button {
 
 }
 
+.movies-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.movies-grid {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .movies-grid::-webkit-scrollbar{
 
     height:8px;
